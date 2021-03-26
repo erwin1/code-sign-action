@@ -8,7 +8,7 @@ import { env } from 'process';
 const asyncExec = util.promisify(exec);
 const certificateFileName = env['TEMP'] + '\\certificate.pfx';
 
-const timestampUrl = 'http://rfc3161timestamp.globalsign.com/advanced';
+const timestampUrl = 'http://timestamp.sectigo.com';
 const signtool = 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe';
 
 const signtoolFileExtensions = [
