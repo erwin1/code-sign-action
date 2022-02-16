@@ -60,7 +60,7 @@ async function signWithSigntool(fileName: string) {
         var vitalParameterIncluded = false;
         var timestampUrl : string = core.getInput('timestampUrl');
         if (timestampUrl === '') {
-          timestampUrl = 'http://timestamp.verisign.com/scripts/timstamp.dll'; // 'http://timestamp.digicert.com';//
+          timestampUrl = 'http://timestamp.sectigo.com'; // 'http://timestamp.digicert.com';//
         }
         var command = `"${signtool}" sign /sm /t ${timestampUrl}`
         const sha1 : string= core.getInput('certificatesha1');
