@@ -56,7 +56,7 @@ async function addCertificateToStore(){
 
 async function signWithSigntool(fileName: string) {
     try {
-        // var command = `"${signtool}" sign /sm /t ${timestampUrl} /sha1 "1d7ec06212fdeae92f8d3010ea422ecff2619f5d"  /n "DanaWoo" ${fileName}`
+        const signtool = await getSigntoolLocation()
         var vitalParameterIncluded = false;
         var timestampUrl : string = core.getInput('timestampUrl');
         if (timestampUrl === '') {
@@ -99,6 +99,33 @@ async function trySignFile(fileName: string) {
         }
     }
     throw `Failed to sign '${fileName}'.`;
+}
+
+async function getSigntoolLocation() {
+    const windowsKitsfolder = 'C:/Program Files (x86)/Windows Kits/10/bin/';
+    const folders = await fs.readdir(windowsKitsfolder);
+    let fileName = 'unable to find signtool.exe';
+    let maxVersion = 0;
+    for (const folder of folders) {
+        if (!folder.endsWith('.0')) {
+            continue;
+        }
+        const folderVersion = parseInt(folder.replace(/\./g,''));
+        if (folderVersion > maxVersion) {
+            const signtoolFilename = `${windowsKitsfolder}${folder}/x86/signtool.exe`;
+            try {
+                const stat = await fs.stat(signtoolFilename);
+                if (stat.isFile()) {
+                    fileName = signtoolFilename
+                    maxVersion = folderVersion;
+                }
+            }
+            catch {
+            }
+        }
+    }
+    console.log(`Signtool location is ${fileName}.`);
+    return fileName;
 }
 
 async function* getFiles(folder: string, recursive: boolean): any {
