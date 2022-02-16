@@ -16,9 +16,16 @@ inputs:
   password:
     description: 'The password'
     required: false
-  certificatename:
-    description: 'The certificate name'
+  certificatesha1:
+    description: 'The sha1 or fingerprint of the certification'
     required: false
+  certificatename:
+    description: 'The Name of the certificate'
+    required: false
+  timestampUrl:
+    description: 'URL of the timestamp server'
+    required: false
+
 runs:
   using: 'node12'
   main: 'dist/index.js'

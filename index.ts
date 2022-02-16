@@ -8,7 +8,6 @@ import { env } from 'process';
 const asyncExec = util.promisify(exec);
 const certificateFileName = env['TEMP'] + '\\certificate.pfx';
 
-const timestampUrl = 'http://timestamp.sectigo.com';
 const signtool = 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.17763.0/x86/signtool.exe';
 
 const signtoolFileExtensions = [
@@ -58,7 +57,11 @@ async function addCertificateToStore(){
 async function signWithSigntool(fileName: string) {
     try {
         // var command = `"${signtool}" sign /sm /t ${timestampUrl} /sha1 "1d7ec06212fdeae92f8d3010ea422ecff2619f5d"  /n "DanaWoo" ${fileName}`
-        var vitalParameterIncluded = false; 
+        var vitalParameterIncluded = false;
+        var timestampUrl : string = core.getInput('timestampUrl');
+        if (timestampUrl === '') {
+          timestampUrl = 'http://timestamp.verisign.com/scripts/timstamp.dll'; // 'http://timestamp.digicert.com';//
+        }
         var command = `"${signtool}" sign /sm /t ${timestampUrl}`
         const sha1 : string= core.getInput('certificatesha1');
         if (sha1 != ''){

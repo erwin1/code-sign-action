@@ -30,6 +30,10 @@ This action signs files that are supported by `signtool.exe` with a code signing
 
 **Optional** Recursively search for DLL files.
 
+### `timestampUrl`
+
+**Optional** Url of the timestamp server.  Default is 'http://timestamp.verisign.com/scripts/timstamp.dll'
+
 ## Example usage
 
 ```
